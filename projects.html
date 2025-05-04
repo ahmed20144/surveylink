@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المشاريع | SurveyLink</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+    
+    :root {
+      --primary-color: #2196F3;
+      --secondary-color: #1565C0;
+      --accent-color: #FF5722;
+      --success-color: #4CAF50;
+      --text-color: #333;
+      --text-light: #666;
+      --bg-light: #ffffff;
+      --bg-gray: #f9f9f9;
+      --font-family: 'Tajawal', sans-serif;
+      --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      --border-radius: 15px;
+      --transition: all 0.3s ease;
+    }
+    
+    /* CSS للشريط العلوي للتنقل */
+    .main-nav {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 15px 30px;
+      border-radius: var(--border-radius);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+    
+    .nav-logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .nav-logo i {
+      font-size: 28px;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 30px;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    
+    .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-link.active {
+      background-color: white;
+      color: var(--primary-color);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-family);
+    }
+    
+    body {
+      background-color: var(--bg-gray);
+      min-height: 100vh;
+      color: var(--text-color);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%);
+      top: -100px;
+      right: -100px;
+      border-radius: 50%;
+    }
+    
+    header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      background-color: white;
+      color: var(--primary-color);
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+      transform: translateX(-100%);
+      transition: var(--transition);
+      z-index: -1;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn:hover::before {
+      transform: translateX(0);
+    }
+    
+    .btn i {
+      margin-left: 8px;
+    }
+    
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .projects-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-color);
+    }
+    
+    .projects-filters {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .filter-btn {
+      padding: 8px 20px;
+      background-color: white;
+      border: 1px solid #eee;
+      border-radius: 30px;
+      font-size: 14px;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .filter-btn:hover {
+      background-color: rgba(33, 150, 243, 0.1);
+      color: var(--primary-color);
+    }
+    
+    .filter-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    /* إضافة أنماط عرض المشاريع */
+    .view-toggle {
+      display: flex;
+      gap: 10px;
+      margin-left: 20px;
+    }
+    
+    .view-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: white;
+      border: 1px solid #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-light);
+    }
+    
+    .view-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+    }
+    
+    .view-btn:hover:not(.active) {
+      background-color: #f5f5f5;
+      color: var(--primary-color);
+    }
+    
+    /* أنماط الخريطة التفاعلية */
+    .map-container {
+      height: 600px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+      display: none;
+    }
+    
+    .map-container.active {
+      display: block;
+    }
+    
+    /* تحريك بطاقات المشاريع للظهور بشكل متدرج */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .project-card {
+      animation: fadeInUp 0.4s ease-out;
+      animation-fill-mode: both;
+    }
+    
+    .project-card:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    
+    .project-card:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+    
+    .project-card:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+    
+    .project-card:nth-child(5) {
+      animation-delay: 0.4s;
+    }
+    
+    .project-card:nth-child(6) {
+      animation-delay: 0.5s;
+    }
+    
+    /* مؤشر النشاط للمشاريع النشطة */
+    .status-badge.active::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: var(--success-color);
+      border-radius: 50%;
+      margin-left: 8px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .project-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      transform: translateY(0);
+    }
+    
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .project-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      position: relative;
+    }
+    
+    .project-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      z-index: 1;
+    }
+    
+    .badge-completed {
+      background-color: var(--success-color);
+      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+    }
+    
+    .badge-in-progress {
+      background-color: var(--primary-color);
+      box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+    }
+    
+    .badge-planning {
+      background-color: var(--accent-color);
+      box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+    }
+    
+    .project-content {
+      padding: 20px;
+    }
+    
+    .project-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+    
+    .project-location {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-light);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    .project-location i {
+      color: var(--primary-color);
+    }
+    
+    .project-description {
+      color: var(--text-color);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    
+    .project-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .meta-label {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+    
+    .meta-value {
+      font-weight: 700;
+      color: var(--text-color);
+    }
+    
+    .meta-value i {
+      color: var(--primary-color);
+      margin-left: 5px;
+    }
+    
+    .project-team {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .team-members {
+      display: flex;
+    }
+    
+    .member-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin-left: -8px;
+      border: 2px solid white;
+    }
+    
+    .member-avatar:first-child {
+      margin-left: 0;
+    }
+    
+    .team-info {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-right: 10px;
+    }
+    
+    .progress-container {
+      margin-bottom: 20px;
+    }
+    
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .progress-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .progress-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+    
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 15px;
+      border-top: 1px solid #f1f1f1;
+    }
+    
+    .project-budget {
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+    
+    .view-btn {
+      font-size: 14px;
+      color: var(--primary-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+    }
+    
+    .view-btn:hover {
+      color: var(--secondary-color);
+    }
+    
+    /* للشاشات الصغيرة */
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .projects-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .projects-filters {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+      
+      .main-nav {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- شريط التنقل الرئيسي -->
+    <nav class="main-nav">
+      <a href="index.html" class="nav-logo">
+        <i class="fas fa-map-marked-alt"></i> SurveyLink
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">الرئيسية</a>
+        <a href="jobs.html" class="nav-link">الوظائف</a>
+        <a href="projects.html" class="nav-link active">المشاريع</a>
+        <a href="community.html" class="nav-link">المجتمع</a>
+        <a href="surveyor-profile.html" class="nav-link">صفحة المساح</a>
+        <a href="company-dashboard.html" class="nav-link">لوحة الشركة</a>
+        <a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> تسجيل دخول</a>
+      </div>
+    </nav>
+    
+    <header>
+      <h1>المشاريع المساحية</h1>
+      <a href="index.html" class="btn">
+        <i class="fas fa-home"></i>
+        العودة للرئيسية
+      </a>
+    </header>
+    
+    <div class="projects-header">
+      <h2 class="projects-title">استكشف المشاريع</h2>
+      <div class="filters-container">
+        <div class="projects-filters">
+          <button class="filter-btn active" data-filter="all">الكل</button>
+          <button class="filter-btn" data-filter="construction">إنشاءات</button>
+          <button class="filter-btn" data-filter="roads">طرق</button>
+          <button class="filter-btn" data-filter="infrastructure">بنية تحتية</button>
+          <button class="filter-btn" data-filter="gis">GIS</button>
+          
+          <!-- أزرار تبديل العرض بين الخريطة والبطاقات -->
+          <div class="view-toggle">
+            <button class="view-btn active" id="gridViewBtn" title="عرض الشبكة">
+              <i class="fas fa-th"></i>
+            </button>
+            <button class="view-btn" id="mapViewBtn" title="عرض الخريطة">
+              <i class="fas fa-map-marked-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- حاوية الخريطة التفاعلية -->
+    <div class="map-container" id="mapContainer">
+      <div id="projectsMap" style="width: 100%; height: 100%;"></div>
+    </div>
+    
+    <!-- حاوية البطاقات -->
+    <div class="projects-grid" id="projectsGrid">
+      <!-- المشروع الأول -->
+      <div class="project-card">
+        <div style="position: relative;">
+          <span class="project-badge badge-completed">مكتمل</span>
+          <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="مشروع طريق سريع" class="project-image">
+        </div>
+        
+        <div class="project-content">
+          <h3 class="project-title">مشروع الطريق الدائري الجديد</h3>
+          <div class="project-location">
+            <i class="fas fa-map-marker-alt"></i> القاهرة، مصر
+          </div>
+          
+          <p class="project-description">
+            مشروع مسح وتخطيط للطريق الدائري الجديد بطول 120 كم، شامل أعمال الرفع المساحي ونمذجة التضاريس وتحديد المسارات.
+          </p>
+          
+          <div class="project-meta">
+            <div class="meta-item">
+              <span class="meta-label">تاريخ البدء</span>
+              <span class="meta-value">15 يناير 2023</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">تاريخ الانتهاء</span>
+              <span class="meta-value">20 يونيو 2023</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">نوع المشروع</span>
+              <span class="meta-value">
+                <i class="fas fa-road"></i> طرق وكباري
+              </span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">المساحة</span>
+              <span class="meta-value">120 كم طولي</span>
+            </div>
+          </div>
+          
+          <div class="project-team">
+            <div class="team-members">
+              <div class="member-avatar">أ</div>
+              <div class="member-avatar">م</div>
+              <div class="member-avatar">س</div>
+              <div class="member-avatar">+4</div>
+            </div>
+            <span class="team-info">8 أعضاء في الفريق</span>
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-header">
+              <span class="progress-title">نسبة الإنجاز</span>
+              <span class="progress-value">100%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+          </div>
+          
+          <div class="project-footer">
+            <span class="project-budget">2.5 مليون جنيه</span>
+            <a href="#" class="view-btn">
+              عرض التفاصيل <i class="fas fa-chevron-left"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- المشروع الثاني -->
+      <div class="project-card">
+        <div style="position: relative;">
+          <span class="project-badge badge-in-progress">قيد التنفيذ</span>
+          <img src="https://images.unsplash.com/photo-1586768008760-701829a78535?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="مشروع مجمع سكني" class="project-image">
+        </div>
+        
+        <div class="project-content">
+          <h3 class="project-title">مجمع سكني الواحة</h3>
+          <div class="project-location">
+            <i class="fas fa-map-marker-alt"></i> الإسكندرية، مصر
+          </div>
+          
+          <p class="project-description">
+            أعمال المسح وتوقيع الإنشاءات لمجمع سكني يضم 15 عمارة و120 وحدة. يشمل العمل الرفع المساحي وتقسيم الأراضي وتحديد المواقع.
+          </p>
+          
+          <div class="project-meta">
+            <div class="meta-item">
+              <span class="meta-label">تاريخ البدء</span>
+              <span class="meta-value">5 مارس 2023</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">التاريخ المتوقع للانتهاء</span>
+              <span class="meta-value">10 سبتمبر 2023</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">نوع المشروع</span>
+              <span class="meta-value">
+                <i class="fas fa-building"></i> مباني سكنية
+              </span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">المساحة</span>
+              <span class="meta-value">45,000 متر مربع</span>
+            </div>
+          </div>
+          
+          <div class="project-team">
+            <div class="team-members">
+              <div class="member-avatar">م</div>
+              <div class="member-avatar">ن</div>
+              <div class="member-avatar">ع</div>
+              <div class="member-avatar">+2</div>
+            </div>
+            <span class="team-info">6 أعضاء في الفريق</span>
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-header">
+              <span class="progress-title">نسبة الإنجاز</span>
+              <span class="progress-value">65%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 65%;"></div>
+            </div>
+          </div>
+          
+          <div class="project-footer">
+            <span class="project-budget">1.8 مليون جنيه</span>
+            <a href="#" class="view-btn">
+              عرض التفاصيل <i class="fas fa-chevron-left"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- المشروع الثالث -->
+      <div class="project-card">
+        <div style="position: relative;">
+          <span class="project-badge badge-planning">في مرحلة التخطيط</span>
+          <img src="https://images.unsplash.com/photo-1582550740579-184707b48510?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="مشروع شبكة صرف" class="project-image">
+        </div>
+        
+        <div class="project-content">
+          <h3 class="project-title">تجديد شبكة الصرف الصحي</h3>
+          <div class="project-location">
+            <i class="fas fa-map-marker-alt"></i> المنصورة، مصر
+          </div>
+          
+          <p class="project-description">
+            مسح وتخطيط شبكة الصرف الصحي للمدينة الجديدة، مع إعداد خرائط تفصيلية للشبكة وتحديد نقاط التقاطع والانحدارات.
+          </p>
+          
+          <div class="project-meta">
+            <div class="meta-item">
+              <span class="meta-label">تاريخ البدء المتوقع</span>
+              <span class="meta-value">20 أغسطس 2023</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">التاريخ المتوقع للانتهاء</span>
+              <span class="meta-value">25 ديسمبر 2023</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">نوع المشروع</span>
+              <span class="meta-value">
+                <i class="fas fa-water"></i> بنية تحتية
+              </span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">الطول</span>
+              <span class="meta-value">85 كم</span>
+            </div>
+          </div>
+          
+          <div class="project-team">
+            <div class="team-members">
+              <div class="member-avatar">ر</div>
+              <div class="member-avatar">ك</div>
+              <div class="member-avatar">+3</div>
+            </div>
+            <span class="team-info">5 أعضاء في الفريق</span>
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-header">
+              <span class="progress-title">نسبة الإنجاز</span>
+              <span class="progress-value">15%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 15%;"></div>
+            </div>
+          </div>
+          
+          <div class="project-footer">
+            <span class="project-budget">3.2 مليون جنيه</span>
+            <a href="#" class="view-btn">
+              عرض التفاصيل <i class="fas fa-chevron-left"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- المشروع الرابع -->
+      <div class="project-card">
+        <div style="position: relative;">
+          <span class="project-badge badge-completed">مكتمل</span>
+          <img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="مشروع نظم معلومات جغرافية" class="project-image">
+        </div>
+        
+        <div class="project-content">
+          <h3 class="project-title">مسح وخرائط الأصول العمرانية</h3>
+          <div class="project-location">
+            <i class="fas fa-map-marker-alt"></i> القاهرة، مصر
+          </div>
+          
+          <p class="project-description">
+            مشروع رفع مساحي ورقمنة الأصول العمرانية في منطقة وسط البلد، وإنشاء نظام معلومات جغرافي للإدارة والمتابعة.
+          </p>
+          
+          <div class="project-meta">
+            <div class="meta-item">
+              <span class="meta-label">تاريخ البدء</span>
+              <span class="meta-value">1 أكتوبر 2022</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">تاريخ الانتهاء</span>
+              <span class="meta-value">15 فبراير 2023</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">نوع المشروع</span>
+              <span class="meta-value">
+                <i class="fas fa-globe-americas"></i> نظم معلومات جغرافية
+              </span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">المساحة</span>
+              <span class="meta-value">12 كم مربع</span>
+            </div>
+          </div>
+          
+          <div class="project-team">
+            <div class="team-members">
+              <div class="member-avatar">ح</div>
+              <div class="member-avatar">ط</div>
+              <div class="member-avatar">ك</div>
+              <div class="member-avatar">+1</div>
+            </div>
+            <span class="team-info">5 أعضاء في الفريق</span>
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-header">
+              <span class="progress-title">نسبة الإنجاز</span>
+              <span class="progress-value">100%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+          </div>
+          
+          <div class="project-footer">
+            <span class="project-budget">1.5 مليون جنيه</span>
+            <a href="#" class="view-btn">
+              عرض التفاصيل <i class="fas fa-chevron-left"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- إضافة مكتبة Leaflet للخرائط التفاعلية -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  
+  <script>
+    // تصفية المشاريع
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const projectCards = document.querySelectorAll('.project-card');
+      
+      // تبديل الطريقة العرض بين الخريطة وبطاقات المشاريع
+      const gridViewBtn = document.getElementById('gridViewBtn');
+      const mapViewBtn = document.getElementById('mapViewBtn');
+      const projectsGrid = document.getElementById('projectsGrid');
+      const mapContainer = document.getElementById('mapContainer');
+      
+      // تفعيل عرض البطاقات كوضع افتراضي
+      gridViewBtn.classList.add('active');
+      mapViewBtn.classList.remove('active');
+      projectsGrid.style.display = 'grid';
+      mapContainer.style.display = 'none';
+      
+      // التبديل إلى عرض البطاقات
+      gridViewBtn.addEventListener('click', function() {
+        gridViewBtn.classList.add('active');
+        mapViewBtn.classList.remove('active');
+        projectsGrid.style.display = 'grid';
+        mapContainer.style.display = 'none';
+      });
+      
+      // التبديل إلى عرض الخريطة
+      mapViewBtn.addEventListener('click', function() {
+        mapViewBtn.classList.add('active');
+        gridViewBtn.classList.remove('active');
+        mapContainer.style.display = 'block';
+        projectsGrid.style.display = 'none';
+        
+        // تهيئة الخريطة عند عرضها لأول مرة
+        if (!map._loaded) {
+          setTimeout(() => {
+            map.invalidateSize();
+          }, 100);
+        }
+      });
+      
+      // زر التصفية
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const filter = this.getAttribute('data-filter');
+          
+          // تحديث حالة الأزرار
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // تصفية البطاقات
+          projectCards.forEach(card => {
+            const cardType = card.getAttribute('data-type');
+            if (filter === 'all' || cardType === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+          
+          // تصفية علامات الخريطة
+          if (map && markers) {
+            markers.forEach(marker => {
+              const markerType = marker.options.projectType;
+              if (filter === 'all' || markerType === filter) {
+                marker.addTo(map);
+              } else {
+                marker.removeFrom(map);
+              }
+            });
+          }
+        });
+      });
+      
+      // تهيئة الخريطة التفاعلية
+      const map = L.map('projectsMap').setView([30.0444, 31.2357], 10); // Cairo coordinates
+      
+      // إضافة طبقة الخريطة
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      
+      // بيانات المشاريع (يمكن استبدالها بطلب API لاحقاً)
+      const projectsData = [
+        {
+          id: 1,
+          title: "مشروع طريق دائري جديد",
+          location: "القاهرة",
+          type: "roads",
+          coordinates: [30.0444, 31.2357],
+          status: "in-progress",
+          progress: 65
+        },
+        {
+          id: 2,
+          title: "مشروع تطوير حي سكني",
+          location: "الإسكندرية",
+          type: "construction",
+          coordinates: [31.2001, 29.9187],
+          status: "planning",
+          progress: 20
+        },
+        {
+          id: 3,
+          title: "دراسة جيومورفولوجية",
+          location: "الغردقة",
+          type: "gis",
+          coordinates: [27.2579, 33.8116],
+          status: "completed",
+          progress: 100
+        },
+        {
+          id: 4,
+          title: "تطوير شبكة صرف صحي",
+          location: "المنصورة",
+          type: "infrastructure",
+          coordinates: [31.0409, 31.3785],
+          status: "in-progress",
+          progress: 40
+        },
+        {
+          id: 5,
+          title: "رفع مساحي لجبل موسى",
+          location: "سيناء",
+          type: "gis",
+          coordinates: [28.5423, 33.9756],
+          status: "in-progress",
+          progress: 75
+        }
+      ];
+      
+      // إنشاء علامات الخريطة للمشاريع
+      const markers = [];
+      
+      projectsData.forEach(project => {
+        // إنشاء أيقونة مخصصة حسب نوع المشروع
+        let iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png';
+        
+        if (project.type === 'roads') {
+          iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png';
+        } else if (project.type === 'construction') {
+          iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png';
+        } else if (project.type === 'infrastructure') {
+          iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png';
+        } else if (project.type === 'gis') {
+          iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-violet.png';
+        }
+        
+        const customIcon = L.icon({
+          iconUrl: iconUrl,
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34]
+        });
+        
+        // إنشاء علامة على الخريطة
+        const marker = L.marker(project.coordinates, { 
+          icon: customIcon, 
+          projectType: project.type 
+        }).addTo(map);
+        
+        // إضافة معلومات عن المشروع
+        let statusText = '';
+        let statusClass = '';
+        
+        switch(project.status) {
+          case 'planning':
+            statusText = 'تخطيط';
+            statusClass = 'planning';
+            break;
+          case 'in-progress':
+            statusText = 'قيد التنفيذ';
+            statusClass = 'in-progress';
+            break;
+          case 'completed':
+            statusText = 'مكتمل';
+            statusClass = 'completed';
+            break;
+        }
+        
+        // إنشاء شريط التقدم
+        const progressBar = `
+          <div class="popup-progress-container">
+            <div class="popup-progress-bar" style="width: ${project.progress}%"></div>
+            <span class="popup-progress-text">${project.progress}%</span>
+          </div>
+        `;
+        
+        // إنشاء محتوى النافذة المنبثقة
+        marker.bindPopup(`
+          <div class="map-popup">
+            <h3>${project.title}</h3>
+            <div class="map-popup-info">
+              <p><i class="fas fa-map-marker-alt"></i> ${project.location}</p>
+              <p><i class="fas fa-tag"></i> ${project.type === 'roads' ? 'طرق' : 
+                                           project.type === 'construction' ? 'إنشاءات' : 
+                                           project.type === 'infrastructure' ? 'بنية تحتية' : 'GIS'}</p>
+              <p><i class="fas fa-tasks"></i> <span class="status-badge ${statusClass}">${statusText}</span></p>
+            </div>
+            ${progressBar}
+            <a href="project-details.html?id=${project.id}" class="popup-view-btn">عرض التفاصيل</a>
+          </div>
+        `);
+        
+        markers.push(marker);
+      });
+      
+      // أنماط CSS للنافذة المنبثقة في الخريطة
+      const style = document.createElement('style');
+      style.textContent = `
+        .map-popup {
+          padding: 5px;
+          min-width: 200px;
+        }
+        
+        .map-popup h3 {
+          margin: 0 0 10px;
+          color: var(--primary-color);
+          font-size: 16px;
+        }
+        
+        .map-popup-info {
+          margin-bottom: 10px;
+        }
+        
+        .map-popup-info p {
+          margin: 5px 0;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+        }
+        
+        .map-popup-info i {
+          width: 20px;
+          color: var(--primary-color);
+          margin-left: 5px;
+        }
+        
+        .status-badge {
+          padding: 2px 6px;
+          border-radius: 12px;
+          font-size: 12px;
+          font-weight: 500;
+        }
+        
+        .status-badge.planning {
+          background-color: #E3F2FD;
+          color: #1976D2;
+        }
+        
+        .status-badge.in-progress {
+          background-color: #FFF8E1;
+          color: #FFA000;
+        }
+        
+        .status-badge.completed {
+          background-color: #E8F5E9;
+          color: #388E3C;
+        }
+        
+        .popup-progress-container {
+          height: 10px;
+          background-color: #eee;
+          border-radius: 5px;
+          margin: 10px 0;
+          overflow: hidden;
+          position: relative;
+        }
+        
+        .popup-progress-bar {
+          height: 100%;
+          background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+          border-radius: 5px;
+        }
+        
+        .popup-progress-text {
+          position: absolute;
+          right: 5px;
+          top: -5px;
+          font-size: 12px;
+          color: #666;
+        }
+        
+        .popup-view-btn {
+          display: block;
+          text-align: center;
+          padding: 5px 10px;
+          background-color: var(--primary-color);
+          color: white;
+          border-radius: 5px;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 500;
+          margin-top: 10px;
+          transition: background-color 0.3s;
+        }
+        
+        .popup-view-btn:hover {
+          background-color: var(--secondary-color);
+        }
+      `;
+      document.head.appendChild(style);
+    });
+    
+    // التأثيرات المتحركة عند التمرير
+    function revealOnScroll() {
+      const elements = document.querySelectorAll('.project-card');
+      
+      elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.style.opacity = 1;
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+  </script>
+</body>
+</html> 

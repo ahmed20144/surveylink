@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع المساحين - تسجيل وتسجيل دخول</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        :root {
+            --primary: #3E51B5;
+            --primary-dark: #303F9F;
+            --primary-light: #C5CAE9;
+            --secondary: #FF9800;
+            --accent: #4CAF50;
+            --text-dark: #263238;
+            --text-medium: #546E7A;
+            --text-light: #78909C;
+            --background: #F5F7FA;
+            --white: #fff;
+            --dark-overlay: rgba(0, 0, 0, 0.75);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --shadow-dark: 0 15px 30px rgba(0, 0, 0, 0.15);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #2ABCCA;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            color: var(--text-dark);
+        }
+        
+        .login-container {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow-dark);
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-header {
+            padding: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: var(--white);
+        }
+        
+        .login-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .login-logo i {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .login-logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .login-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .login-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-weight: 600;
+            background-color: rgba(0, 0, 0, 0.02);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .login-tab.active {
+            background-color: var(--white);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .login-form {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(62, 81, 181, 0.2);
+            outline: none;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-medium);
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(62, 81, 181, 0.2);
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 6px 8px rgba(62, 81, 181, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--text-dark);
+            box-shadow: none;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .social-login {
+            margin-top: 25px;
+            text-align: center;
+        }
+        
+        .social-divider {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .social-divider::before,
+        .social-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-divider span {
+            padding: 0 15px;
+            color: var(--text-medium);
+            font-size: 14px;
+        }
+        
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 20px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-btn.linkedin {
+            background-color: #0077B5;
+        }
+        
+        .social-btn.facebook {
+            background-color: #4267B2;
+        }
+        
+        .social-btn.google {
+            background-color: #DB4437;
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding: 15px 30px 30px;
+            font-size: 14px;
+            color: var(--text-medium);
+        }
+        
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert i {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+        
+        .alert-error {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            border-right-color: #f44336;
+        }
+        
+        .alert-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+            border-right-color: #4caf50;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 576px) {
+            .login-container {
+                max-width: 95%;
+                margin: 0 15px;
+            }
+            
+            .login-logo h1 {
+                font-size: 24px;
+            }
+            
+            .login-form {
+                padding: 20px;
+            }
+        }
+        
+        /* خلفية الصفحة */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .background-shape {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -100px;
+        }
+        
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            bottom: 50px;
+            right: 50px;
+        }
+        
+        .shape-3 {
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            left: -150px;
+        }
+        
+        .site-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .site-logo i {
+            font-size: 30px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- شعار الموقع -->
+    <a href="#" class="site-logo">
+        <span>موقع المساحين</span>
+        <i class="fas fa-map-marked-alt"></i>
+    </a>
+    
+    <!-- خلفية الصفحة -->
+    <div class="background">
+        <div class="background-shape shape-1"></div>
+        <div class="background-shape shape-2"></div>
+        <div class="background-shape shape-3"></div>
+    </div>
+    
+    <!-- نموذج تسجيل الدخول -->
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <h1>موقع المساحين</h1>
+            </div>
+            <div class="login-subtitle">منصة تربط المساحين المحترفين بالشركات</div>
+        </div>
+        
+        <div class="login-tabs">
+            <div class="login-tab active" id="tab-login">تسجيل الدخول</div>
+            <div class="login-tab" id="tab-register">حساب جديد</div>
+        </div>
+        
+        <div id="login-form" class="login-form">
+            <div id="login-alert" class="alert alert-error hidden">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="login-alert-text"></span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input type="email" id="login-email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <div class="password-field">
+                    <input type="password" id="login-password" class="form-control" placeholder="أدخل كلمة المرور">
+                    <span class="password-toggle" id="login-password-toggle">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <button type="button" id="login-button" class="btn">تسجيل الدخول</button>
+            
+            <div class="social-login">
+                <div class="social-divider">
+                    <span>أو سجل الدخول باستخدام</span>
+                </div>
+                <div class="social-buttons">
+                    <div class="social-btn linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </div>
+                    <div class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="social-btn google">
+                        <i class="fab fa-google"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="register-form" class="login-form hidden">
+            <div id="register-alert" class="alert alert-error hidden">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="register-alert-text"></span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">الاسم</label>
+                <input type="text" id="register-name" class="form-control" placeholder="أدخل اسمك الكامل">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input type="email" id="register-email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <div class="password-field">
+                    <input type="password" id="register-password" class="form-control" placeholder="أدخل كلمة المرور">
+                    <span class="password-toggle" id="register-password-toggle">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">نوع الحساب</label>
+                <select id="register-role" class="form-control">
+                    <option value="surveyor">مساح</option>
+                    <option value="company">شركة</option>
+                </select>
+            </div>
+            
+            <button type="button" id="register-button" class="btn">إنشاء حساب</button>
+        </div>
+        
+        <div class="login-footer">
+            <p>جميع الحقوق محفوظة &copy; 2023 موقع المساحين | <a href="#">سياسة الخصوصية</a></p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // التبديل بين تبويبات تسجيل الدخول والتسجيل
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            tabLogin.addEventListener('click', function() {
+                tabLogin.classList.add('active');
+                tabRegister.classList.remove('active');
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            });
+            
+            tabRegister.addEventListener('click', function() {
+                tabRegister.classList.add('active');
+                tabLogin.classList.remove('active');
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            });
+            
+            // إظهار وإخفاء كلمة المرور
+            const loginPasswordToggle = document.getElementById('login-password-toggle');
+            const loginPassword = document.getElementById('login-password');
+            
+            loginPasswordToggle.addEventListener('click', function() {
+                togglePasswordVisibility(loginPassword, loginPasswordToggle);
+            });
+            
+            const registerPasswordToggle = document.getElementById('register-password-toggle');
+            const registerPassword = document.getElementById('register-password');
+            
+            registerPasswordToggle.addEventListener('click', function() {
+                togglePasswordVisibility(registerPassword, registerPasswordToggle);
+            });
+            
+            function togglePasswordVisibility(passwordField, toggleButton) {
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                } else {
+                    passwordField.type = 'password';
+                    toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
+                }
+            }
+            
+            // الاتصال بقاعدة البيانات Supabase
+            // التحقق من تسجيل الدخول
+            checkLoggedInUser();
+            
+            // تسجيل الدخول
+            const loginButton = document.getElementById('login-button');
+            loginButton.addEventListener('click', async function() {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                if (!email || !password) {
+                    showAlert('login', 'يرجى إدخال البريد الإلكتروني وكلمة المرور', 'error');
+                    return;
+                }
+                
+                try {
+                    loginButton.disabled = true;
+                    loginButton.textContent = 'جاري تسجيل الدخول...';
+                    
+                    const result = await window.SupabaseClient.loginUser(email, password);
+                    
+                    if (result.success) {
+                        // توجيه المستخدم حسب نوعه
+                        window.SupabaseClient.redirectBasedOnRole(result.role);
+                    } else {
+                        showAlert('login', 'فشل تسجيل الدخول: ' + result.error, 'error');
+                        loginButton.disabled = false;
+                        loginButton.textContent = 'تسجيل الدخول';
+                    }
+                } catch (error) {
+                    console.error('خطأ:', error);
+                    showAlert('login', 'حدث خطأ غير متوقع', 'error');
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'تسجيل الدخول';
+                }
+            });
+            
+            // تسجيل مستخدم جديد
+            const registerButton = document.getElementById('register-button');
+            registerButton.addEventListener('click', async function() {
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const role = document.getElementById('register-role').value;
+                
+                if (!name || !email || !password) {
+                    showAlert('register', 'يرجى إدخال جميع البيانات المطلوبة', 'error');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showAlert('register', 'يجب أن تكون كلمة المرور 6 أحرف على الأقل', 'error');
+                    return;
+                }
+                
+                try {
+                    registerButton.disabled = true;
+                    registerButton.textContent = 'جاري إنشاء الحساب...';
+                    
+                    const result = await window.SupabaseClient.registerUser(email, password, name, role);
+                    
+                    if (result.success) {
+                        showAlert('register', 'تم إنشاء الحساب بنجاح! سيتم تسجيل دخولك...', 'success');
+                        
+                        // تسجيل الدخول تلقائيًا بعد التسجيل
+                        setTimeout(async () => {
+                            const loginResult = await window.SupabaseClient.loginUser(email, password);
+                            
+                            if (loginResult.success) {
+                                // توجيه المستخدم حسب نوعه
+                                window.SupabaseClient.redirectBasedOnRole(loginResult.role);
+                            } else {
+                                showAlert('register', 'تم إنشاء الحساب لكن فشل تسجيل الدخول. يرجى تسجيل الدخول يدويًا.', 'error');
+                                
+                                // التبديل إلى تبويب تسجيل الدخول
+                                tabLogin.click();
+                                
+                                registerButton.disabled = false;
+                                registerButton.textContent = 'إنشاء حساب';
+                            }
+                        }, 2000);
+                    } else {
+                        showAlert('register', 'فشل إنشاء الحساب: ' + result.error, 'error');
+                        registerButton.disabled = false;
+                        registerButton.textContent = 'إنشاء حساب';
+                    }
+                } catch (error) {
+                    console.error('خطأ:', error);
+                    showAlert('register', 'حدث خطأ غير متوقع', 'error');
+                    registerButton.disabled = false;
+                    registerButton.textContent = 'إنشاء حساب';
+                }
+            });
+            
+            // التحقق من تسجيل الدخول
+            async function checkLoggedInUser() {
+                try {
+                    // التحقق من تسجيل الدخول
+                    const authResult = await window.SupabaseClient.checkAuth();
+                    
+                    if (authResult) {
+                        // المستخدم مسجل دخوله بالفعل، توجيهه للصفحة المناسبة
+                        window.SupabaseClient.redirectBasedOnRole(authResult.role);
+                    }
+                } catch (error) {
+                    console.error('خطأ في التحقق من حالة تسجيل الدخول:', error);
+                }
+            }
+            
+            // إظهار تنبيه
+            function showAlert(formType, message, type) {
+                const alertElement = document.getElementById(formType + '-alert');
+                const alertTextElement = document.getElementById(formType + '-alert-text');
+                
+                alertElement.className = 'alert alert-' + type;
+                alertTextElement.textContent = message;
+                
+                alertElement.classList.remove('hidden');
+                
+                // إخفاء التنبيه بعد 5 ثوانٍ
+                setTimeout(() => {
+                    alertElement.classList.add('hidden');
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

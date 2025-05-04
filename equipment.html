@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوق المعدات المساحية | SurveyLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2196F3;
+            --secondary-color: #0D47A1;
+            --text-color: #333;
+            --text-light: #777;
+            --bg-color: #f5f7fa;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --font-family: 'Tajawal', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            color: var(--text-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-title i {
+            margin-left: 10px;
+            color: var(--primary-color);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .back-btn i {
+            margin-left: 8px;
+        }
+        
+        .back-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* أنماط قسم التصفية والبحث */
+        .search-section {
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-family: var(--font-family);
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .search-btn {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: var(--font-family);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+            background-color: white;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .price-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: var(--font-family);
+            transition: border-color 0.3s;
+        }
+        
+        .price-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .price-separator {
+            color: var(--text-light);
+        }
+        
+        .filter-tabs {
+            display: flex;
+            margin-top: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .filter-tab {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--text-light);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .filter-tab:hover:not(.active) {
+            color: var(--text-color);
+        }
+        
+        .view-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .view-mode {
+            display: flex;
+            align-items: center;
+        }
+        
+        .view-btn {
+            padding: 8px 12px;
+            margin-left: 10px;
+            background-color: transparent;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .view-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .view-btn:hover:not(.active) {
+            color: var(--text-color);
+            border-color: #ccc;
+        }
+        
+        .sort-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .sort-label {
+            margin-left: 10px;
+            color: var(--text-light);
+        }
+        
+        .sort-select {
+            padding: 8px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            font-family: var(--font-family);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+        
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        /* أنماط عرض المعدات */
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .equipment-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .equipment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .equipment-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .equipment-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .equipment-card:hover .equipment-image img {
+            transform: scale(1.1);
+        }
+        
+        .equipment-label {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+            z-index: 1;
+        }
+        
+        .label-sale {
+            background-color: #FF5722;
+            color: white;
+        }
+        
+        .label-rent {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .label-new {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .label-discount {
+            background-color: #9C27B0;
+            color: white;
+        }
+        
+        .equipment-content {
+            padding: 20px;
+        }
+        
+        .equipment-type {
+            color: var(--primary-color);
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .equipment-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .equipment-specs {
+            margin-bottom: 15px;
+        }
+        
+        .spec-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .spec-item i {
+            margin-left: 8px;
+            color: var(--primary-color);
+            font-size: 12px;
+        }
+        
+        .equipment-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .equipment-price {
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 18px;
+        }
+        
+        .price-period {
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: normal;
+        }
+        
+        .equipment-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .equipment-rating {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .rating-stars {
+            color: #FFD700;
+            margin-left: 8px;
+            font-size: 14px;
+        }
+        
+        .rating-count {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .equipment-status {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-new {
+            background-color: #E3F2FD;
+            color: #1976D2;
+        }
+        
+        .status-used {
+            background-color: #FFEBEE;
+            color: #D32F2F;
+        }
+        
+        .status-refurbished {
+            background-color: #E8F5E9;
+            color: #388E3C;
+        }
+        
+        .company-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .company-badge i {
+            margin-left: 5px;
+        }
+        
+        .view-more {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        
+        .view-more:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* لعرض قائمة */
+        .equipment-list {
+            display: none;
+        }
+        
+        .equipment-list .equipment-card {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .equipment-list .equipment-image {
+            width: 250px;
+            height: auto;
+        }
+        
+        .equipment-list .equipment-content {
+            flex: 1;
+        }
+        
+        /* تحميل المزيد */
+        .load-more {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .load-more-btn {
+            padding: 12px 30px;
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .load-more-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .load-more-btn i {
+            margin-right: 10px;
+        }
+        
+        /* التوافقية مع الشاشات الصغيرة */
+        @media (max-width: 992px) {
+            .filter-options {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .equipment-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .equipment-list .equipment-card {
+                flex-direction: column;
+            }
+            
+            .equipment-list .equipment-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .filter-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 10px;
+            }
+            
+            .view-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="page-title">
+                <i class="fas fa-tools"></i>
+                سوق المعدات المساحية
+            </h1>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-right"></i>
+                العودة للرئيسية
+            </a>
+        </header>
+        
+        <!-- قسم البحث والتصفية -->
+        <section class="search-section">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="ابحث عن المعدات المساحية...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="filter-options">
+                <div class="filter-group">
+                    <label class="filter-label">نوع المعدات</label>
+                    <select class="filter-select">
+                        <option value="">جميع الأنواع</option>
+                        <option value="total-station">محطة رصد متكاملة</option>
+                        <option value="gps">أجهزة GPS</option>
+                        <option value="level">ميزان</option>
+                        <option value="drone">طائرات مسح</option>
+                        <option value="laser">ماسح ليزري</option>
+                        <option value="accessories">ملحقات وإكسسوارات</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">الحالة</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="new">جديد</option>
+                        <option value="used">مستعمل</option>
+                        <option value="refurbished">مجدد</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">الماركة</label>
+                    <select class="filter-select">
+                        <option value="">جميع الماركات</option>
+                        <option value="leica">Leica</option>
+                        <option value="trimble">Trimble</option>
+                        <option value="topcon">Topcon</option>
+                        <option value="sokkia">Sokkia</option>
+                        <option value="nikon">Nikon</option>
+                        <option value="south">South</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">السعر (ريال)</label>
+                    <div class="price-range">
+                        <input type="number" class="price-input" placeholder="من">
+                        <span class="price-separator">-</span>
+                        <input type="number" class="price-input" placeholder="إلى">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active">جميع المعدات</button>
+                <button class="filter-tab">للبيع</button>
+                <button class="filter-tab">للإيجار</button>
+                <button class="filter-tab">عروض خاصة</button>
+                <button class="filter-tab">وصل حديثاً</button>
+            </div>
+        </section>
+        
+        <!-- خيارات العرض والترتيب -->
+        <div class="view-options">
+            <div class="view-mode">
+                <button class="view-btn active" data-view="grid">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="view-btn" data-view="list">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+            
+            <div class="sort-option">
+                <span class="sort-label">ترتيب حسب:</span>
+                <select class="sort-select">
+                    <option value="latest">الأحدث</option>
+                    <option value="price-asc">السعر: من الأقل للأعلى</option>
+                    <option value="price-desc">السعر: من الأعلى للأقل</option>
+                    <option value="popularity">الأكثر شيوعاً</option>
+                    <option value="rating">التقييم</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- قسم عرض المعدات -->
+        <section class="equipment-grid" id="equipmentContainer">
+            <!-- بطاقة معدات 1 -->
+            <div class="equipment-card">
+                <div class="equipment-image">
+                    <img src="https://www.geosystems.com.gh/wp-content/uploads/2021/08/leica-ts16-1-2-5-r1000-total-station.jpg" alt="محطة رصد متكاملة Leica TS16">
+                    <span class="equipment-label label-sale">للبيع</span>
+                </div>
+                <div class="equipment-content">
+                    <div class="equipment-type">محطة رصد متكاملة</div>
+                    <h3 class="equipment-title">Leica TS16 R1000</h3>
+                    
+                    <div class="equipment-status">
+                        <span class="status-badge status-new">جديد</span>
+                        <span class="company-badge">
+                            <i class="fas fa-building"></i>
+                            شركة العمران للمساحة
+                        </span>
+                    </div>
+                    
+                    <div class="equipment-specs">
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            دقة القياس: 1 ثانية
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            المدى: 1000 متر بدون عاكس
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            متوفر منذ: 5 أيام
+                        </div>
+                    </div>
+                    
+                    <div class="equipment-rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count">4.5 (18 تقييم)</span>
+                    </div>
+                    
+                    <div class="equipment-footer">
+                        <div class="equipment-price">
+                            85,000 ريال
+                        </div>
+                        <div class="equipment-actions">
+                            <button class="action-btn" title="حفظ">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn" title="المقارنة">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بطاقة معدات 2 -->
+            <div class="equipment-card">
+                <div class="equipment-image">
+                    <img src="https://www.allenprecision.com/wp-content/uploads/2018/12/27200SouthS86.jpg" alt="محطة رصد متكاملة South S86">
+                    <span class="equipment-label label-discount">خصم 15%</span>
+                </div>
+                <div class="equipment-content">
+                    <div class="equipment-type">محطة رصد متكاملة</div>
+                    <h3 class="equipment-title">South S86 Total Station</h3>
+                    
+                    <div class="equipment-status">
+                        <span class="status-badge status-new">جديد</span>
+                        <span class="company-badge">
+                            <i class="fas fa-building"></i>
+                            مؤسسة الأفق للمساحة
+                        </span>
+                    </div>
+                    
+                    <div class="equipment-specs">
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            دقة القياس: 2 ثانية
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            المدى: 600 متر بدون عاكس
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            متوفر منذ: 2 أسبوع
+                        </div>
+                    </div>
+                    
+                    <div class="equipment-rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-count">4.0 (12 تقييم)</span>
+                    </div>
+                    
+                    <div class="equipment-footer">
+                        <div class="equipment-price">
+                            42,500 ريال
+                            <span style="text-decoration: line-through; color: #999; font-size: 14px; margin-right: 5px;">
+                                50,000 ريال
+                            </span>
+                        </div>
+                        <div class="equipment-actions">
+                            <button class="action-btn" title="حفظ">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn" title="المقارنة">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بطاقة معدات 3 -->
+            <div class="equipment-card">
+                <div class="equipment-image">
+                    <img src="https://d1nymbkeomeoqg.cloudfront.net/photos/25/51/347791_13261_XXL.jpg" alt="جهاز GPS Trimble R10">
+                    <span class="equipment-label label-rent">للإيجار</span>
+                </div>
+                <div class="equipment-content">
+                    <div class="equipment-type">جهاز GPS</div>
+                    <h3 class="equipment-title">Trimble R10 GNSS</h3>
+                    
+                    <div class="equipment-status">
+                        <span class="status-badge status-used">مستعمل</span>
+                        <span class="company-badge">
+                            <i class="fas fa-building"></i>
+                            شركة البيانات المكانية
+                        </span>
+                    </div>
+                    
+                    <div class="equipment-specs">
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            دقة القياس: 8 مم + 0.5 جزء في المليون
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            تتبع الأقمار: GPS + GLONASS + Galileo
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            عمر البطارية: 5.5 ساعة
+                        </div>
+                    </div>
+                    
+                    <div class="equipment-rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-count">4.2 (9 تقييم)</span>
+                    </div>
+                    
+                    <div class="equipment-footer">
+                        <div class="equipment-price">
+                            1,500 ريال
+                            <span class="price-period">/ يومياً</span>
+                        </div>
+                        <div class="equipment-actions">
+                            <button class="action-btn" title="حفظ">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn" title="المقارنة">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بطاقة معدات 4 -->
+            <div class="equipment-card">
+                <div class="equipment-image">
+                    <img src="https://pilotexports.com/wp-content/uploads/2022/04/DJI-Phantom-4-RTK-1.jpg" alt="طائرة مسح DJI Phantom 4 RTK">
+                    <span class="equipment-label label-new">وصل حديثاً</span>
+                </div>
+                <div class="equipment-content">
+                    <div class="equipment-type">طائرة مسح</div>
+                    <h3 class="equipment-title">DJI Phantom 4 RTK</h3>
+                    
+                    <div class="equipment-status">
+                        <span class="status-badge status-new">جديد</span>
+                        <span class="company-badge">
+                            <i class="fas fa-building"></i>
+                            مؤسسة تقنيات المساحة
+                        </span>
+                    </div>
+                    
+                    <div class="equipment-specs">
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            دقة الموقع: 1 سم + 1 جزء في المليون
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            وقت الطيران: 30 دقيقة
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            كاميرا: 20 ميجابكسل
+                        </div>
+                    </div>
+                    
+                    <div class="equipment-rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count">4.7 (15 تقييم)</span>
+                    </div>
+                    
+                    <div class="equipment-footer">
+                        <div class="equipment-price">
+                            56,000 ريال
+                        </div>
+                        <div class="equipment-actions">
+                            <button class="action-btn" title="حفظ">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn" title="المقارنة">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بطاقة معدات 5 -->
+            <div class="equipment-card">
+                <div class="equipment-image">
+                    <img src="https://www.geomax-positioning.com/files/images/Products/Digital%20levels/Zenith%20Series/Zenith_16-11.png" alt="ميزان رقمي Geomax ZDL700">
+                    <span class="equipment-label label-sale">للبيع</span>
+                </div>
+                <div class="equipment-content">
+                    <div class="equipment-type">ميزان رقمي</div>
+                    <h3 class="equipment-title">Geomax ZDL700 Digital Level</h3>
+                    
+                    <div class="equipment-status">
+                        <span class="status-badge status-refurbished">مجدد</span>
+                        <span class="company-badge">
+                            <i class="fas fa-building"></i>
+                            الشركة الهندسية للمساحة
+                        </span>
+                    </div>
+                    
+                    <div class="equipment-specs">
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            دقة التسوية: 0.7 مم / كم
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            مدى القياس: 2-105 متر
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            وقت القياس: 3 ثواني
+                        </div>
+                    </div>
+                    
+                    <div class="equipment-rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-count">3.5 (6 تقييم)</span>
+                    </div>
+                    
+                    <div class="equipment-footer">
+                        <div class="equipment-price">
+                            12,800 ريال
+                        </div>
+                        <div class="equipment-actions">
+                            <button class="action-btn" title="حفظ">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn" title="المقارنة">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بطاقة معدات 6 -->
+            <div class="equipment-card">
+                <div class="equipment-image">
+                    <img src="https://www.geocom.co.nz/wp-content/uploads/2019/11/TX5.jpg" alt="ماسح ليزري Trimble TX5">
+                    <span class="equipment-label label-rent">للإيجار</span>
+                </div>
+                <div class="equipment-content">
+                    <div class="equipment-type">ماسح ليزري</div>
+                    <h3 class="equipment-title">Trimble TX5 3D Laser Scanner</h3>
+                    
+                    <div class="equipment-status">
+                        <span class="status-badge status-used">مستعمل</span>
+                        <span class="company-badge">
+                            <i class="fas fa-building"></i>
+                            الشركة الوطنية للمساحة
+                        </span>
+                    </div>
+                    
+                    <div class="equipment-specs">
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            نطاق المسح: 120 متر
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            سرعة المسح: 976,000 نقطة/ثانية
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-check-circle"></i>
+                            دقة المسافة: ± 2 مم
+                        </div>
+                    </div>
+                    
+                    <div class="equipment-rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-count">5.0 (8 تقييم)</span>
+                    </div>
+                    
+                    <div class="equipment-footer">
+                        <div class="equipment-price">
+                            3,500 ريال
+                            <span class="price-period">/ يومياً</span>
+                        </div>
+                        <div class="equipment-actions">
+                            <button class="action-btn" title="حفظ">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn" title="المقارنة">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- زر تحميل المزيد -->
+        <div class="load-more">
+            <button class="load-more-btn">
+                <i class="fas fa-sync"></i> 
+                عرض المزيد من المعدات
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // تبديل طريقة العرض (شبكة/قائمة)
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const viewMode = this.getAttribute('data-view');
+                
+                // إزالة الصفة active من جميع الأزرار
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                
+                // إضافة الصفة active للزر المختار
+                this.classList.add('active');
+                
+                // تبديل طريقة العرض
+                const container = document.getElementById('equipmentContainer');
+                if (viewMode === 'grid') {
+                    container.className = 'equipment-grid';
+                } else {
+                    container.className = 'equipment-list';
+                }
+            });
+        });
+        
+        // تفعيل تصفية المعدات
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // إزالة الصفة active من جميع التبويبات
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                
+                // إضافة الصفة active للتبويب المختار
+                this.classList.add('active');
+                
+                // هنا يمكن إضافة منطق التصفية
+                const filterValue = this.textContent.trim();
+                console.log(`تم اختيار تصفية: ${filterValue}`);
+            });
+        });
+        
+        // تفعيل زر المفضلة
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // تبديل أيقونة القلب (مفضلة)
+                if (this.querySelector('i').classList.contains('far')) {
+                    this.querySelector('i').classList.remove('far');
+                    this.querySelector('i').classList.add('fas');
+                    this.style.color = '#F44336';
+                    this.style.borderColor = '#F44336';
+                } else if (this.querySelector('i').classList.contains('fas') && 
+                           this.querySelector('i').classList.contains('fa-heart')) {
+                    this.querySelector('i').classList.remove('fas');
+                    this.querySelector('i').classList.add('far');
+                    this.style.color = '';
+                    this.style.borderColor = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

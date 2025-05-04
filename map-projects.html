@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الخريطة التفاعلية للمشاريع | SurveyLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary-color: #2196F3;
+            --secondary-color: #0D47A1;
+            --text-color: #333;
+            --text-light: #777;
+            --bg-color: #f5f7fa;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --font-family: 'Tajawal', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            color: var(--text-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-title i {
+            margin-left: 10px;
+            color: var(--primary-color);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .back-btn i {
+            margin-left: 8px;
+        }
+        
+        .back-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .map-container {
+            display: flex;
+            height: calc(100vh - 180px);
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .filters-panel {
+            width: 320px;
+            padding: 20px;
+            background-color: white;
+            border-left: 1px solid #eee;
+            overflow-y: auto;
+        }
+        
+        .filters-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-item input {
+            margin-left: 10px;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .radio-item input {
+            margin-left: 10px;
+        }
+        
+        .range-slider {
+            width: 100%;
+        }
+        
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .apply-filters {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        
+        .apply-filters:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .reset-filters {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: transparent;
+            color: var(--text-light);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .reset-filters:hover {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+        }
+        
+        .map-view {
+            flex: 1;
+            position: relative;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .project-popup {
+            max-width: 300px;
+        }
+        
+        .popup-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        .popup-location {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .popup-location i {
+            margin-left: 5px;
+            color: var(--primary-color);
+        }
+        
+        .popup-type {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #e3f2fd;
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .popup-description {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .popup-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        
+        .popup-detail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .detail-label {
+            color: var(--text-light);
+            margin-bottom: 3px;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .popup-link {
+            display: block;
+            text-align: center;
+            padding: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .popup-link:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .legend-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+        
+        .legend-label {
+            font-size: 13px;
+            color: var(--text-color);
+        }
+        
+        .color-road {
+            background-color: #FF5722;
+        }
+        
+        .color-construction {
+            background-color: #4CAF50;
+        }
+        
+        .color-infrastructure {
+            background-color: #9C27B0;
+        }
+        
+        .color-gis {
+            background-color: #2196F3;
+        }
+        
+        @media (max-width: 992px) {
+            .map-container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .filters-panel {
+                width: 100%;
+                border-left: none;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .map-view {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="page-title">
+                <i class="fas fa-map-marked-alt"></i>
+                الخريطة التفاعلية للمشاريع المساحية
+            </h1>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-right"></i>
+                العودة للرئيسية
+            </a>
+        </header>
+        
+        <div class="map-container">
+            <div class="filters-panel">
+                <h3 class="filters-title">تصفية المشاريع</h3>
+                
+                <div class="filter-group">
+                    <label class="filter-label">نوع المشروع</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-type" value="road" checked>
+                            طرق
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-type" value="construction" checked>
+                            إنشاءات
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-type" value="infrastructure" checked>
+                            بنية تحتية
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-type" value="gis" checked>
+                            نظم معلومات جغرافية
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">حالة المشروع</label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="project-status" value="all" checked>
+                            الكل
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="project-status" value="completed">
+                            مكتمل
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="project-status" value="in-progress">
+                            قيد التنفيذ
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="project-status" value="planning">
+                            قيد التخطيط
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">الميزانية (بالألف ريال)</label>
+                    <input type="range" min="0" max="1000" value="1000" class="range-slider" id="budget-range">
+                    <div class="range-labels">
+                        <span>0</span>
+                        <span id="budget-value">1000</span>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">المنطقة</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-region" value="riyadh" checked>
+                            الرياض
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-region" value="jeddah" checked>
+                            جدة
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-region" value="eastern" checked>
+                            المنطقة الشرقية
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-region" value="makkah" checked>
+                            مكة المكرمة
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-region" value="madinah" checked>
+                            المدينة المنورة
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="project-region" value="other" checked>
+                            مناطق أخرى
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="apply-filters">تطبيق الفلترة</button>
+                <button class="reset-filters">إعادة تعيين</button>
+            </div>
+            
+            <div class="map-view">
+                <div id="map"></div>
+                
+                <div class="legend">
+                    <div class="legend-title">دليل الخريطة</div>
+                    <div class="legend-item">
+                        <div class="legend-color color-road"></div>
+                        <div class="legend-label">طرق</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color color-construction"></div>
+                        <div class="legend-label">إنشاءات</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color color-infrastructure"></div>
+                        <div class="legend-label">بنية تحتية</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color color-gis"></div>
+                        <div class="legend-label">نظم معلومات جغرافية</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // تهيئة الخريطة
+        const map = L.map('map').setView([24.774265, 46.738586], 6); // مركز السعودية
+        
+        // إضافة طبقة الخريطة الأساسية
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // بيانات المشاريع (محاكاة)
+        const projects = [
+            {
+                id: 1,
+                title: "تطوير طريق الملك عبدالله",
+                location: "الرياض",
+                type: "road",
+                status: "in-progress",
+                description: "مشروع تطوير وتوسعة طريق الملك عبدالله بطول 15 كم",
+                budget: 500,
+                area: "150,000 م²",
+                progress: "65%",
+                coords: [24.774265, 46.738586]
+            },
+            {
+                id: 2,
+                title: "إنشاء مجمع سكني الواحة",
+                location: "جدة",
+                type: "construction",
+                status: "planning",
+                description: "مشروع إنشاء مجمع سكني يضم 120 وحدة سكنية",
+                budget: 800,
+                area: "75,000 م²",
+                progress: "10%",
+                coords: [21.485811, 39.192505]
+            },
+            {
+                id: 3,
+                title: "تطوير شبكة الصرف الصحي",
+                location: "الدمام",
+                type: "infrastructure",
+                status: "in-progress",
+                description: "مشروع تطوير وتحديث شبكة الصرف الصحي بحي النور",
+                budget: 350,
+                area: "50,000 م²",
+                progress: "40%",
+                coords: [26.373975, 50.039789]
+            },
+            {
+                id: 4,
+                title: "تحديث الخرائط الطبوغرافية للمدينة",
+                location: "المدينة المنورة",
+                type: "gis",
+                status: "completed",
+                description: "مشروع تحديث وإنشاء خرائط رقمية للمدينة المنورة",
+                budget: 250,
+                area: "500,000 م²",
+                progress: "100%",
+                coords: [24.471325, 39.612236]
+            },
+            {
+                id: 5,
+                title: "تطوير طريق الملك فهد",
+                location: "مكة المكرمة",
+                type: "road",
+                status: "in-progress",
+                description: "مشروع توسعة وتطوير طريق الملك فهد بطول 12 كم",
+                budget: 450,
+                area: "120,000 م²",
+                progress: "75%",
+                coords: [21.389082, 39.857912]
+            },
+            {
+                id: 6,
+                title: "إنشاء برج الأعمال",
+                location: "الرياض",
+                type: "construction",
+                status: "planning",
+                description: "مشروع إنشاء برج مكاتب بارتفاع 35 طابق",
+                budget: 950,
+                area: "25,000 م²",
+                progress: "5%",
+                coords: [24.794150, 46.698207]
+            },
+            {
+                id: 7,
+                title: "تطوير محطة معالجة المياه",
+                location: "جدة",
+                type: "infrastructure",
+                status: "in-progress",
+                description: "مشروع تطوير وتوسعة محطة معالجة المياه الشمالية",
+                budget: 600,
+                area: "30,000 م²",
+                progress: "50%",
+                coords: [21.543333, 39.172778]
+            },
+            {
+                id: 8,
+                title: "مسح وإنشاء خرائط تفصيلية",
+                location: "القصيم",
+                type: "gis",
+                status: "completed",
+                description: "مشروع مسح وإنشاء خرائط تفصيلية لمنطقة القصيم",
+                budget: 180,
+                area: "650,000 م²",
+                progress: "100%",
+                coords: [26.323333, 43.970833]
+            }
+        ];
+        
+        // تحديد لون المؤشر حسب نوع المشروع
+        function getMarkerColor(type) {
+            switch(type) {
+                case 'road': return '#FF5722';
+                case 'construction': return '#4CAF50';
+                case 'infrastructure': return '#9C27B0';
+                case 'gis': return '#2196F3';
+                default: return '#607D8B';
+            }
+        }
+        
+        // إنشاء المؤشرات للمشاريع
+        projects.forEach(project => {
+            // إنشاء مؤشر مخصص
+            const markerIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="background-color: ${getMarkerColor(project.type)}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.3);"></div>`,
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, -10]
+            });
+            
+            // إنشاء المؤشر على الخريطة
+            const marker = L.marker(project.coords, { icon: markerIcon }).addTo(map);
+            
+            // إنشاء محتوى النافذة المنبثقة
+            const popupContent = `
+                <div class="project-popup">
+                    <h3 class="popup-title">${project.title}</h3>
+                    <div class="popup-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        ${project.location}
+                    </div>
+                    <div class="popup-type">${getProjectTypeName(project.type)}</div>
+                    <p class="popup-description">${project.description}</p>
+                    <div class="popup-details">
+                        <div class="popup-detail">
+                            <span class="detail-label">الميزانية</span>
+                            <span class="detail-value">${project.budget} ألف</span>
+                        </div>
+                        <div class="popup-detail">
+                            <span class="detail-label">المساحة</span>
+                            <span class="detail-value">${project.area}</span>
+                        </div>
+                        <div class="popup-detail">
+                            <span class="detail-label">الإنجاز</span>
+                            <span class="detail-value">${project.progress}</span>
+                        </div>
+                    </div>
+                    <a href="project.html?id=${project.id}" class="popup-link">تفاصيل المشروع</a>
+                </div>
+            `;
+            
+            // ربط النافذة المنبثقة بالمؤشر
+            marker.bindPopup(popupContent);
+        });
+        
+        // تحويل نوع المشروع لاسم مقروء
+        function getProjectTypeName(type) {
+            switch(type) {
+                case 'road': return 'طرق';
+                case 'construction': return 'إنشاءات';
+                case 'infrastructure': return 'بنية تحتية';
+                case 'gis': return 'نظم معلومات جغرافية';
+                default: return type;
+            }
+        }
+        
+        // تحديث قيمة شريط التمرير للميزانية
+        const budgetRange = document.getElementById('budget-range');
+        const budgetValue = document.getElementById('budget-value');
+        
+        budgetRange.addEventListener('input', function() {
+            budgetValue.textContent = this.value;
+        });
+        
+        // تطبيق الفلترة
+        document.querySelector('.apply-filters').addEventListener('click', function() {
+            // هنا سيتم إضافة المنطق الخاص بالفلترة
+            alert('تم تطبيق الفلترة');
+        });
+        
+        // إعادة تعيين الفلاتر
+        document.querySelector('.reset-filters').addEventListener('click', function() {
+            // إعادة تعيين جميع الفلاتر للقيم الافتراضية
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            
+            const radioButtons = document.querySelectorAll('input[name="project-status"]');
+            radioButtons[0].checked = true;
+            
+            budgetRange.value = 1000;
+            budgetValue.textContent = '1000';
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المساح | موقع المساحين</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/supabase.js" defer></script>
+    <script src="js/common.js" defer></script>
+    <script src="js/navigation.js" defer></script>
+</head>
+<body>
+    <!-- سيتم إنشاء شريط التنقل هنا بواسطة navigation.js -->
+    
+    <main class="container mt-5">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="welcome-card card p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2>أهلاً بك في لوحة التحكم</h2>
+                            <p class="text-medium">مرحباً بك في لوحة تحكم المساح، يمكنك إدارة مشاريعك وملفك الشخصي من هنا.</p>
+                        </div>
+                        <div class="user-welcome-icon">
+                            <i class="fas fa-map-marked-alt fa-3x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بطاقات إحصائية -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card p-4 text-center">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-project-diagram fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="stats-number" id="projects-count">0</h3>
+                    <p class="stats-label">المشاريع النشطة</p>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card p-4 text-center">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-briefcase fa-3x text-secondary"></i>
+                    </div>
+                    <h3 class="stats-number" id="jobs-applications-count">0</h3>
+                    <p class="stats-label">طلبات التوظيف</p>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card p-4 text-center">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-star fa-3x text-warning"></i>
+                    </div>
+                    <h3 class="stats-number" id="rating-value">0.0</h3>
+                    <p class="stats-label">تقييمك الحالي</p>
+                </div>
+            </div>
+            
+            <!-- المشاريع الحالية -->
+            <div class="col-12 mb-4">
+                <div class="card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>المشاريع الحالية</h3>
+                        <a href="javascript:void(0)" onclick="NavUtils.navigateToPage('projects')" class="btn btn-outline">عرض جميع المشاريع</a>
+                    </div>
+                    <div id="current-projects-list" class="projects-list">
+                        <div class="text-center p-5">
+                            <div class="placeholder-content">
+                                <i class="fas fa-spinner fa-spin fa-2x mb-3 text-primary"></i>
+                                <p>جاري تحميل المشاريع...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- آخر الإشعارات -->
+            <div class="col-12 col-md-6 mb-4">
+                <div class="card p-4">
+                    <h3 class="mb-4">آخر الإشعارات</h3>
+                    <div id="notifications-list" class="notifications-list">
+                        <div class="notification-item">
+                            <div class="notification-icon bg-primary">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p>مرحبًا بك في لوحة تحكم المساح</p>
+                                <small>الآن</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- الرسائل الأخيرة -->
+            <div class="col-12 col-md-6 mb-4">
+                <div class="card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>آخر الرسائل</h3>
+                        <a href="javascript:void(0)" onclick="NavUtils.navigateToPage('messages')" class="btn btn-outline">جميع الرسائل</a>
+                    </div>
+                    <div id="recent-messages" class="messages-list">
+                        <div class="text-center p-3">
+                            <p class="text-medium">لا توجد رسائل جديدة</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- أحدث الوظائف -->
+            <div class="col-12 mb-4">
+                <div class="card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>أحدث الوظائف</h3>
+                        <a href="javascript:void(0)" onclick="NavUtils.navigateToPage('jobs')" class="btn btn-outline">عرض جميع الوظائف</a>
+                    </div>
+                    <div id="latest-jobs" class="jobs-list">
+                        <div class="text-center p-5">
+                            <div class="placeholder-content">
+                                <i class="fas fa-spinner fa-spin fa-2x mb-3 text-primary"></i>
+                                <p>جاري تحميل الوظائف...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- سيتم إنشاء التذييل هنا بواسطة navigation.js -->
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        // تحقق من تسجيل الدخول
+        const authResult = await window.SupabaseClient.checkAuth();
+        
+        if (!authResult || authResult.role !== 'surveyor') {
+            // توجيه المستخدم لصفحة تسجيل الدخول إذا لم يكن مسجلاً كمساح
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        // تحميل بيانات المساح
+        await loadSurveyorData(authResult);
+    });
+    
+    // وظيفة تحميل بيانات المساح
+    async function loadSurveyorData(authResult) {
+        try {
+            const { profileData } = authResult;
+            
+            // تعيين اسم المستخدم في ترويسة الصفحة
+            document.querySelector('.welcome-card h2').textContent = 'أهلاً بك ' + authResult.userData.name;
+            
+            // تعيين التقييم
+            if (profileData && profileData.rating !== null) {
+                document.getElementById('rating-value').textContent = profileData.rating.toFixed(1);
+            }
+            
+            // تحميل المشاريع النشطة
+            await loadActiveProjects(authResult.userData.id);
+            
+            // تحميل طلبات التوظيف
+            await loadJobApplications(authResult.userData.id);
+            
+            // تحميل الوظائف الأخيرة
+            await loadLatestJobs();
+            
+        } catch (error) {
+            console.error('خطأ في تحميل بيانات المساح:', error);
+            showAlert('حدث خطأ في تحميل البيانات. يرجى المحاولة مرة أخرى', 'error');
+        }
+    }
+    
+    // وظيفة تحميل المشاريع النشطة
+    async function loadActiveProjects(userId) {
+        try {
+            const { data: projects, error } = await window.SupabaseClient.supabase
+                .from('surveyor_projects')
+                .select('*')
+                .eq('surveyor_id', userId)
+                .eq('status', 'in-progress')
+                .order('created_at', { ascending: false })
+                .limit(5);
+                
+            if (error) throw error;
+            
+            const projectsContainer = document.getElementById('current-projects-list');
+            
+            // تحديث عدد المشاريع
+            document.getElementById('projects-count').textContent = projects.length;
+            
+            // إذا لم تكن هناك مشاريع
+            if (projects.length === 0) {
+                projectsContainer.innerHTML = `
+                    <div class="text-center p-4">
+                        <p class="text-medium">لا توجد مشاريع نشطة حالياً</p>
+                        <a href="projects.html" class="btn btn-primary mt-3">البحث عن مشاريع</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // عرض المشاريع
+            let projectsHTML = '';
+            
+            projects.forEach(project => {
+                projectsHTML += `
+                    <div class="project-item card mb-3 p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4>${project.title}</h4>
+                                <p class="text-medium mb-2">${window.CommonUtils.truncateText(project.description, 100)}</p>
+                                <div class="project-meta">
+                                    <span class="badge bg-primary">${window.CommonUtils.getStatusText(project.status)}</span>
+                                    <span class="mr-2"><i class="fas fa-map-marker-alt"></i> ${project.location || 'غير محدد'}</span>
+                                    <span class="mr-2"><i class="fas fa-calendar"></i> ${window.CommonUtils.formatDate(project.due_date)}</span>
+                                </div>
+                            </div>
+                            <a href="project-details.html?id=${project.id}" class="btn btn-outline">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            projectsContainer.innerHTML = projectsHTML;
+            
+        } catch (error) {
+            console.error('خطأ في تحميل المشاريع النشطة:', error);
+            const projectsContainer = document.getElementById('current-projects-list');
+            projectsContainer.innerHTML = `
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>حدث خطأ في تحميل المشاريع. يرجى المحاولة مرة أخرى</span>
+                </div>
+            `;
+        }
+    }
+    
+    // وظيفة تحميل طلبات التوظيف
+    async function loadJobApplications(userId) {
+        try {
+            const { data: applications, error } = await window.SupabaseClient.supabase
+                .from('job_applications')
+                .select('*')
+                .eq('applicant_id', userId)
+                .order('created_at', { ascending: false });
+                
+            if (error) throw error;
+            
+            // تحديث عدد طلبات التوظيف
+            document.getElementById('jobs-applications-count').textContent = applications.length;
+            
+        } catch (error) {
+            console.error('خطأ في تحميل طلبات التوظيف:', error);
+        }
+    }
+    
+    // وظيفة تحميل أحدث الوظائف
+    async function loadLatestJobs() {
+        try {
+            const { data: jobs, error } = await window.SupabaseClient.supabase
+                .from('jobs')
+                .select('*')
+                .eq('status', 'open')
+                .order('created_at', { ascending: false })
+                .limit(3);
+                
+            if (error) throw error;
+            
+            const jobsContainer = document.getElementById('latest-jobs');
+            
+            // إذا لم تكن هناك وظائف
+            if (jobs.length === 0) {
+                jobsContainer.innerHTML = `
+                    <div class="text-center p-4">
+                        <p class="text-medium">لا توجد وظائف متاحة حالياً</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // عرض الوظائف
+            let jobsHTML = '';
+            
+            jobs.forEach(job => {
+                jobsHTML += window.CommonUtils.createJobCard(job);
+            });
+            
+            jobsContainer.innerHTML = jobsHTML;
+            
+        } catch (error) {
+            console.error('خطأ في تحميل أحدث الوظائف:', error);
+            const jobsContainer = document.getElementById('latest-jobs');
+            jobsContainer.innerHTML = `
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>حدث خطأ في تحميل الوظائف. يرجى المحاولة مرة أخرى</span>
+                </div>
+            `;
+        }
+    }
+    
+    // عرض تنبيه
+    function showAlert(message, type = 'info') {
+        const alertHTML = window.CommonUtils.createAlert(message, type, true);
+        const alertContainer = document.createElement('div');
+        alertContainer.className = 'alert-container';
+        alertContainer.style.position = 'fixed';
+        alertContainer.style.top = '20px';
+        alertContainer.style.right = '20px';
+        alertContainer.style.zIndex = '9999';
+        
+        alertContainer.innerHTML = alertHTML;
+        document.body.appendChild(alertContainer);
+        
+        // إزالة التنبيه بعد 5 ثوانٍ
+        setTimeout(() => {
+            alertContainer.remove();
+        }, 5000);
+    }
+    </script>
+    
+    <style>
+    .stats-icon {
+        color: var(--primary-color);
+    }
+    
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    
+    .stats-label {
+        color: var(--text-medium);
+        font-size: 1rem;
+    }
+    
+    .notification-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .notification-item:last-child {
+        border-bottom: none;
+    }
+    
+    .notification-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    
+    .notification-content p {
+        margin-bottom: 5px;
+    }
+    
+    .notification-content small {
+        color: var(--text-medium);
+    }
+    
+    .messages-list, .projects-list, .notifications-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .project-meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        font-size: 0.9rem;
+        color: var(--text-medium);
+    }
+    
+    .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: white;
+    }
+    
+    .bg-primary {
+        background-color: var(--primary-color);
+    }
+    
+    .welcome-card {
+        background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+        color: white;
+    }
+    
+    .user-welcome-icon {
+        background-color: rgba(255, 255, 255, 0.2);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    </style>
+</body>
+</html> 

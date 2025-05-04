@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مجتمع المساحين | SurveyLink</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+    
+    :root {
+      --primary-color: #2196F3;
+      --secondary-color: #1565C0;
+      --accent-color: #FF5722;
+      --success-color: #4CAF50;
+      --text-color: #333;
+      --text-light: #666;
+      --bg-light: #ffffff;
+      --bg-gray: #f5f5f5;
+      --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+      --border-radius: 15px;
+    }
+    
+    /* CSS للشريط العلوي للتنقل */
+    .main-nav {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 15px 30px;
+      border-radius: var(--border-radius);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+    
+    .nav-logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .nav-logo i {
+      font-size: 28px;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 30px;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    
+    .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-link.active {
+      background-color: white;
+      color: var(--primary-color);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    body {
+      background-color: var(--bg-gray);
+      min-height: 100vh;
+      color: var(--text-color);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      z-index: 0;
+    }
+    
+    header h1 {
+      font-size: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      background-color: white;
+      color: var(--primary-color);
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      z-index: 1;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+      transform: translateX(-100%);
+      transition: var(--transition);
+      z-index: -1;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn:hover::before {
+      transform: translateX(0);
+    }
+    
+    .btn i {
+      margin-left: 8px;
+    }
+    
+    .main-wrapper {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 30px;
+    }
+    
+    .sidebar {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      height: fit-content;
+    }
+    
+    .profile-card {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .profile-avatar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+      z-index: 1;
+    }
+    
+    .profile-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .profile-title {
+      color: var(--text-light);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    .profile-stats {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--primary-color);
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    
+    .sidebar-links {
+      margin-bottom: 30px;
+    }
+    
+    .sidebar-heading {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--text-color);
+    }
+    
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      border-radius: 8px;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: var(--transition);
+      margin-bottom: 5px;
+    }
+    
+    .sidebar-link:hover {
+      background-color: rgba(33, 150, 243, 0.1);
+      color: var(--primary-color);
+    }
+    
+    .sidebar-link.active {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 500;
+    }
+    
+    .sidebar-link i {
+      margin-left: 10px;
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+    
+    .content {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+    
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .content-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-color);
+    }
+    
+    .post-form {
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .post-form textarea {
+      width: 100%;
+      height: 100px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      resize: none;
+      transition: var(--transition);
+    }
+    
+    .post-form textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+    }
+    
+    .post-form-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      background-color: #f1f1f1;
+      border: none;
+      border-radius: 30px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .action-btn:hover {
+      background-color: rgba(33, 150, 243, 0.1);
+      color: var(--primary-color);
+    }
+    
+    .post-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 25px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .post-btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+    }
+    
+    .posts-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .post {
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    
+    .post-header {
+      display: flex;
+      padding: 15px;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .post-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+    
+    .post-user-info {
+      flex: 1;
+    }
+    
+    .post-username {
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    
+    .post-time {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    
+    .post-content {
+      padding: 0 15px 15px;
+    }
+    
+    .post-text {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+    
+    .post-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .post-actions {
+      display: flex;
+      gap: 20px;
+      padding: 15px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .post-action {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-light);
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .post-action:hover {
+      color: var(--primary-color);
+    }
+    
+    .post-action i {
+      font-size: 18px;
+    }
+    
+    .post-likes.active {
+      color: #E53935;
+    }
+    
+    .post-likes.active i {
+      color: #E53935;
+    }
+    
+    .trending-widget {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-top: 30px;
+    }
+    
+    .trending-topics {
+      list-style: none;
+    }
+    
+    .trending-topic {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .trending-topic:last-child {
+      border-bottom: none;
+    }
+    
+    .topic-name {
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+    
+    .topic-count {
+      background-color: rgba(33, 150, 243, 0.1);
+      color: var(--primary-color);
+      padding: 3px 10px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    @media (max-width: 992px) {
+      .main-wrapper {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        order: 2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="main-nav">
+      <a href="index.html" class="nav-logo">
+        <i class="fas fa-map-marked-alt"></i> SurveyLink
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">الرئيسية</a>
+        <a href="jobs.html" class="nav-link">الوظائف</a>
+        <a href="projects.html" class="nav-link">المشاريع</a>
+        <a href="community.html" class="nav-link active">المجتمع</a>
+        <a href="surveyor-profile.html" class="nav-link">صفحة المساح</a>
+        <a href="company-dashboard.html" class="nav-link">لوحة الشركة</a>
+        <a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> تسجيل دخول</a>
+      </div>
+    </nav>
+
+    <header>
+      <div class="header-content">
+        <h1>مجتمع المساحين</h1>
+        <a href="index.html" class="btn">
+          <i class="fas fa-chevron-right"></i> العودة للرئيسية
+        </a>
+      </div>
+    </header>
+    
+    <div class="main-wrapper">
+      <div class="sidebar">
+        <div class="profile-card">
+          <div class="profile-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <h3 class="profile-name">أحمد محمد</h3>
+          <p class="profile-title">مهندس مساحة - 5 سنوات خبرة</p>
+          
+          <div class="profile-stats">
+            <div class="stat">
+              <div class="stat-value">128</div>
+              <div class="stat-label">متابعين</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">45</div>
+              <div class="stat-label">منشورات</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">23</div>
+              <div class="stat-label">مشاريع</div>
+            </div>
+          </div>
+          
+          <a href="#" class="btn">تعديل الملف الشخصي</a>
+        </div>
+        
+        <div class="sidebar-links">
+          <h3 class="sidebar-heading">الأقسام الرئيسية</h3>
+          <a href="#" class="sidebar-link active">
+            <i class="fas fa-home"></i> الرئيسية
+          </a>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-users"></i> الزملاء
+          </a>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-briefcase"></i> وظائف
+          </a>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-graduation-cap"></i> دورات تدريبية
+          </a>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-book"></i> مقالات فنية
+          </a>
+        </div>
+        
+        <div class="sidebar-links">
+          <h3 class="sidebar-heading">المجموعات</h3>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-road"></i> مساحي الطرق
+          </a>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-building"></i> المباني والإنشاءات
+          </a>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-water"></i> البنية التحتية
+          </a>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-globe-asia"></i> نظم المعلومات الجغرافية
+          </a>
+        </div>
+      </div>
+      
+      <div class="content">
+        <div class="content-header">
+          <h2 class="content-title">آخر المنشورات</h2>
+          <div class="content-actions">
+            <button class="btn">
+              <i class="fas fa-filter"></i> تصفية
+            </button>
+          </div>
+        </div>
+        
+        <div class="post-form">
+          <textarea placeholder="شارك خبراتك وأفكارك مع زملائك المساحين..."></textarea>
+          <div class="post-form-footer">
+            <div class="form-actions">
+              <button class="action-btn" title="إضافة صورة">
+                <i class="fas fa-image"></i>
+              </button>
+              <button class="action-btn" title="إضافة ملف">
+                <i class="fas fa-paperclip"></i>
+              </button>
+              <button class="action-btn" title="إضافة استطلاع">
+                <i class="fas fa-poll"></i>
+              </button>
+            </div>
+            <button class="post-btn">نشر</button>
+          </div>
+        </div>
+        
+        <div class="posts-container">
+          <!-- المنشور الأول -->
+          <div class="post">
+            <div class="post-header">
+              <div class="post-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="post-user-info">
+                <div class="post-username">محمد أحمد</div>
+                <div class="post-time">منذ 30 دقيقة</div>
+              </div>
+            </div>
+            <div class="post-content">
+              <p class="post-text">شاركوني رأيكم في أفضل جهاز Total Station للعمل في مشاريع الطرق؟ أنا حاليا أفكر في شراء جهاز جديد وأريد اقتراحاتكم.</p>
+            </div>
+            <div class="post-actions">
+              <div class="post-action post-likes">
+                <i class="far fa-heart"></i>
+                <span>24</span>
+              </div>
+              <div class="post-action">
+                <i class="far fa-comment"></i>
+                <span>15</span>
+              </div>
+              <div class="post-action">
+                <i class="far fa-share-square"></i>
+                <span>3</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- المنشور الثاني -->
+          <div class="post">
+            <div class="post-header">
+              <div class="post-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="post-user-info">
+                <div class="post-username">سارة خالد</div>
+                <div class="post-time">منذ 3 ساعات</div>
+              </div>
+            </div>
+            <div class="post-content">
+              <p class="post-text">أنهيت للتو مشروع مساحة الطريق الدائري الجديد. كانت تجربة رائعة واستخدمنا أحدث التقنيات في المسح!</p>
+              <img src="https://images.unsplash.com/photo-1517430884771-72a73c28246d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="مشروع الطريق الدائري" class="post-image">
+            </div>
+            <div class="post-actions">
+              <div class="post-action post-likes active">
+                <i class="fas fa-heart"></i>
+                <span>56</span>
+              </div>
+              <div class="post-action">
+                <i class="far fa-comment"></i>
+                <span>8</span>
+              </div>
+              <div class="post-action">
+                <i class="far fa-share-square"></i>
+                <span>12</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- المنشور الثالث -->
+          <div class="post">
+            <div class="post-header">
+              <div class="post-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="post-user-info">
+                <div class="post-username">أحمد علي</div>
+                <div class="post-time">منذ يوم واحد</div>
+              </div>
+            </div>
+            <div class="post-content">
+              <p class="post-text">سؤال لزملائي: هل هناك برنامج جيد لمعالجة بيانات GPS بشكل دقيق؟ أنا أعمل على مشروع ضخم ونحتاج لدقة عالية في البيانات.</p>
+            </div>
+            <div class="post-actions">
+              <div class="post-action post-likes">
+                <i class="far fa-heart"></i>
+                <span>32</span>
+              </div>
+              <div class="post-action">
+                <i class="far fa-comment"></i>
+                <span>24</span>
+              </div>
+              <div class="post-action">
+                <i class="far fa-share-square"></i>
+                <span>5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="trending-widget">
+      <h3 class="sidebar-heading">المواضيع الشائعة</h3>
+      <ul class="trending-topics">
+        <li class="trending-topic">
+          <span class="topic-name"># التخطيط_العمراني</span>
+          <span class="topic-count">128 منشور</span>
+        </li>
+        <li class="trending-topic">
+          <span class="topic-name"># أجهزة_المساحة_الحديثة</span>
+          <span class="topic-count">95 منشور</span>
+        </li>
+        <li class="trending-topic">
+          <span class="topic-name"># تقنيات_الليزر</span>
+          <span class="topic-count">76 منشور</span>
+        </li>
+        <li class="trending-topic">
+          <span class="topic-name"># حساب_الكميات</span>
+          <span class="topic-count">54 منشور</span>
+        </li>
+        <li class="trending-topic">
+          <span class="topic-name"># أنظمة_GPS</span>
+          <span class="topic-count">42 منشور</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    // تفعيل زر الإعجاب
+    const likeButtons = document.querySelectorAll('.post-likes');
+    likeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const likeCount = this.querySelector('span');
+        const icon = this.querySelector('i');
+        
+        if (this.classList.contains('active')) {
+          likeCount.textContent = parseInt(likeCount.textContent) + 1;
+          icon.className = 'fas fa-heart';
+        } else {
+          likeCount.textContent = parseInt(likeCount.textContent) - 1;
+          icon.className = 'far fa-heart';
+        }
+      });
+    });
+    
+    // محاكاة إضافة منشور جديد
+    document.querySelector('.post-btn').addEventListener('click', function() {
+      const textarea = document.querySelector('.post-form textarea');
+      const postContent = textarea.value.trim();
+      
+      if (postContent) {
+        const postsContainer = document.querySelector('.posts-container');
+        
+        // إنشاء منشور جديد
+        const newPost = document.createElement('div');
+        newPost.className = 'post';
+        newPost.innerHTML = `
+          <div class="post-header">
+            <div class="post-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="post-user-info">
+              <div class="post-username">أحمد محمد</div>
+              <div class="post-time">الآن</div>
+            </div>
+          </div>
+          <div class="post-content">
+            <p class="post-text">${postContent}</p>
+          </div>
+          <div class="post-actions">
+            <div class="post-action post-likes">
+              <i class="far fa-heart"></i>
+              <span>0</span>
+            </div>
+            <div class="post-action">
+              <i class="far fa-comment"></i>
+              <span>0</span>
+            </div>
+            <div class="post-action">
+              <i class="far fa-share-square"></i>
+              <span>0</span>
+            </div>
+          </div>
+        `;
+        
+        // إضافة المنشور في بداية القائمة
+        postsContainer.insertBefore(newPost, postsContainer.firstChild);
+        
+        // تفعيل زر الإعجاب بالمنشور الجديد
+        const newLikeButton = newPost.querySelector('.post-likes');
+        newLikeButton.addEventListener('click', function() {
+          this.classList.toggle('active');
+          const likeCount = this.querySelector('span');
+          const icon = this.querySelector('i');
+          
+          if (this.classList.contains('active')) {
+            likeCount.textContent = parseInt(likeCount.textContent) + 1;
+            icon.className = 'fas fa-heart';
+          } else {
+            likeCount.textContent = parseInt(likeCount.textContent) - 1;
+            icon.className = 'far fa-heart';
+          }
+        });
+        
+        // مسح النص من مربع النص
+        textarea.value = '';
+        
+        // إضافة تأثير ظهور للمنشور الجديد
+        newPost.style.animation = 'fadeIn 0.5s';
+      }
+    });
+  </script>
+</body>
+</html> 
