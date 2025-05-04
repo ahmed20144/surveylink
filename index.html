@@ -377,6 +377,73 @@
             font-size: 30px;
             margin-left: 10px;
         }
+        
+        .form-divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .form-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-divider span {
+            background-color: var(--white);
+            padding: 0 15px;
+            position: relative;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: var(--border-radius);
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .btn-google {
+            background-color: #fff;
+            color: #4285F4;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-google:hover {
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-facebook {
+            background-color: #1877F2;
+            color: #fff;
+        }
+        
+        .btn-facebook:hover {
+            background-color: #166FE5;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
 <body>
@@ -415,37 +482,37 @@
             </div>
             
             <div class="form-group">
-                <label class="form-label">البريد الإلكتروني</label>
-                <input type="email" id="login-email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                <label class="form-label" for="login-email">البريد الإلكتروني</label>
+                <input type="email" class="form-control" id="login-email" placeholder="example@domain.com" autocomplete="email">
             </div>
             
             <div class="form-group">
-                <label class="form-label">كلمة المرور</label>
+                <label class="form-label" for="login-password">كلمة المرور</label>
                 <div class="password-field">
-                    <input type="password" id="login-password" class="form-control" placeholder="أدخل كلمة المرور">
-                    <span class="password-toggle" id="login-password-toggle">
-                        <i class="fas fa-eye"></i>
-                    </span>
+                    <input type="password" class="form-control" id="login-password" placeholder="كلمة المرور" autocomplete="current-password">
+                    <span class="password-toggle" id="login-password-toggle"><i class="fas fa-eye"></i></span>
                 </div>
+                <small class="forgot-password"><a href="#" id="forgot-password-link">نسيت كلمة المرور؟</a></small>
             </div>
             
-            <button type="button" id="login-button" class="btn">تسجيل الدخول</button>
+            <div class="form-group">
+                <button type="button" class="btn" id="login-btn">تسجيل الدخول</button>
+            </div>
+            
+            <div class="form-divider">
+                <span>أو</span>
+            </div>
             
             <div class="social-login">
-                <div class="social-divider">
-                    <span>أو سجل الدخول باستخدام</span>
-                </div>
-                <div class="social-buttons">
-                    <div class="social-btn linkedin">
-                        <i class="fab fa-linkedin-in"></i>
-                    </div>
-                    <div class="social-btn facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </div>
-                    <div class="social-btn google">
-                        <i class="fab fa-google"></i>
-                    </div>
-                </div>
+                <button type="button" class="btn-social btn-google" id="google-login-btn">
+                    <i class="fab fa-google"></i>
+                    <span>تسجيل الدخول بحساب جوجل</span>
+                </button>
+                
+                <button type="button" class="btn-social btn-facebook" id="facebook-login-btn">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>تسجيل الدخول بحساب فيسبوك</span>
+                </button>
             </div>
         </div>
         
@@ -483,7 +550,25 @@
                 </select>
             </div>
             
-            <button type="button" id="register-button" class="btn">إنشاء حساب</button>
+            <div class="form-group">
+                <button type="button" id="register-button" class="btn">إنشاء حساب</button>
+            </div>
+            
+            <div class="form-divider">
+                <span>أو</span>
+            </div>
+            
+            <div class="social-login">
+                <button type="button" class="btn-social btn-google" id="google-signup-btn">
+                    <i class="fab fa-google"></i>
+                    <span>إنشاء حساب بواسطة جوجل</span>
+                </button>
+                
+                <button type="button" class="btn-social btn-facebook" id="facebook-signup-btn">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>إنشاء حساب بواسطة فيسبوك</span>
+                </button>
+            </div>
         </div>
         
         <div class="login-footer">
@@ -543,7 +628,7 @@
             checkLoggedInUser();
             
             // تسجيل الدخول
-            const loginButton = document.getElementById('login-button');
+            const loginButton = document.getElementById('login-btn');
             loginButton.addEventListener('click', async function() {
                 const email = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
@@ -575,6 +660,68 @@
                 }
             });
             
+            // أزرار تسجيل الدخول بواسطة مواقع التواصل الاجتماعي
+            const googleLoginBtn = document.getElementById('google-login-btn');
+            const facebookLoginBtn = document.getElementById('facebook-login-btn');
+            const googleSignupBtn = document.getElementById('google-signup-btn');
+            const facebookSignupBtn = document.getElementById('facebook-signup-btn');
+            
+            if (googleLoginBtn) {
+                googleLoginBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    try {
+                        googleLoginBtn.disabled = true;
+                        await window.SupabaseClient.loginWithGoogle();
+                    } catch (error) {
+                        console.error('خطأ في تسجيل الدخول بواسطة جوجل:', error);
+                        showAlert('login', 'فشل الاتصال بحساب جوجل', 'error');
+                        googleLoginBtn.disabled = false;
+                    }
+                });
+            }
+            
+            if (facebookLoginBtn) {
+                facebookLoginBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    try {
+                        facebookLoginBtn.disabled = true;
+                        await window.SupabaseClient.loginWithFacebook();
+                    } catch (error) {
+                        console.error('خطأ في تسجيل الدخول بواسطة فيسبوك:', error);
+                        showAlert('login', 'فشل الاتصال بحساب فيسبوك', 'error');
+                        facebookLoginBtn.disabled = false;
+                    }
+                });
+            }
+            
+            if (googleSignupBtn) {
+                googleSignupBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    try {
+                        googleSignupBtn.disabled = true;
+                        await window.SupabaseClient.loginWithGoogle();
+                    } catch (error) {
+                        console.error('خطأ في إنشاء حساب بواسطة جوجل:', error);
+                        showAlert('register', 'فشل الاتصال بحساب جوجل', 'error');
+                        googleSignupBtn.disabled = false;
+                    }
+                });
+            }
+            
+            if (facebookSignupBtn) {
+                facebookSignupBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    try {
+                        facebookSignupBtn.disabled = true;
+                        await window.SupabaseClient.loginWithFacebook();
+                    } catch (error) {
+                        console.error('خطأ في إنشاء حساب بواسطة فيسبوك:', error);
+                        showAlert('register', 'فشل الاتصال بحساب فيسبوك', 'error');
+                        facebookSignupBtn.disabled = false;
+                    }
+                });
+            }
+            
             // تسجيل مستخدم جديد
             const registerButton = document.getElementById('register-button');
             registerButton.addEventListener('click', async function() {
@@ -597,7 +744,14 @@
                     registerButton.disabled = true;
                     registerButton.textContent = 'جاري إنشاء الحساب...';
                     
-                    const result = await window.SupabaseClient.registerUser(email, password, name, role);
+                    const userData = {
+                        email: email,
+                        password: password,
+                        name: name,
+                        role: role
+                    };
+                    
+                    const result = await window.SupabaseClient.registerUser(userData);
                     
                     if (result.success) {
                         showAlert('register', 'تم إنشاء الحساب بنجاح! سيتم تسجيل دخولك...', 'success');
@@ -608,7 +762,8 @@
                             
                             if (loginResult.success) {
                                 // توجيه المستخدم حسب نوعه
-                                window.SupabaseClient.redirectBasedOnRole(loginResult.role);
+                                const role = loginResult.data?.user?.user_metadata?.role || 'surveyor';
+                                window.SupabaseClient.redirectBasedOnRole(role);
                             } else {
                                 showAlert('register', 'تم إنشاء الحساب لكن فشل تسجيل الدخول. يرجى تسجيل الدخول يدويًا.', 'error');
                                 
